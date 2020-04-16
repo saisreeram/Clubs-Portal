@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+  </head>
+  <body>
+    <header>
+      <div id="brand" >
+        <h1>CLUBSportal</h1>
+      </div>
+    </header>
+      <nav>
+        <ul>
+          {% if user.is_authenticated %}
+          <li class="current"><a href="index.html">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">About</a></li>
+          <li>
+            <form class="" action="{% url 'registration:logout_url' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Logout">
+            </form>
+          </li>
+          {% else %}
+            <li class="current"><a href="index.html">Home</a></li>
+            <li><a href="{% url 'registration:signup_url' %}">Signup</a></li>
+            <li><a href="{% url 'registration:login_url' %}">Login</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">About</a></li>
+          {% endif %}
+        </ul>
+        <ul>
+        </ul>
+      </nav>
+      {% block body %}
+      {% endblock %}
+  </body>
+</html>

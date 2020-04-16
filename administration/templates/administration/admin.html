@@ -1,0 +1,44 @@
+{% extends "administration/base.html" %}
+
+{% block body %}
+{% if not clubs %}
+    <h2 class="article-title ml-2">NO CLUBS PROPOSED</h2>
+{% else %}
+    <h2 class="article-title ml-2">PROPOSED CLUBS</h2>
+{% endif %}   
+    {% for club in clubs %}
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ club.club_logo.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ club.club_name }}</h2>
+                <p class="text-secondary">proposed by : {{ club.name }}</p>
+                <p class="text-secondary">{{ club.club_info }}</p>
+            </div>  
+        </div>
+        <div class="border-top">
+            <p class="mt-2">
+                <form action="result1" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="ans" value="accept">
+                    <button class="btn btn-secondary btn-sm mt-1 mb-1" id="{{ club.club_name }}"  value="{{ club.id }}" style="width:100%" >Accept</button>
+                    <input type="hidden" name="name" value="{{ club.club_name }}" >
+                </form>
+                <button class="btn btn-danger btn-sm mt-1 mb-1" id ="Rejectbtn" value="{{ club.id }}" style="width:100%">Reject</button>
+                <div class="{{ club.club_name }}" id="RejectReason">
+                <center><h2>Why do you want to reject the club </h2></center>
+                <form action="result" method="post">
+                    {% csrf_token %}
+                    <textarea name="message" cols="40" rows="5" maxlength="10000" class="textarea form-control"></textarea><br>
+                    <br>
+                    <input type="hidden" name="name" value="{{ club.club_name }}" >
+                    <input class="btn btn-outline-info" type="submit" value="submit" name="{{ club.club_name }}" style="width:100%">
+                </form>
+            </div>
+            </p>
+          </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+

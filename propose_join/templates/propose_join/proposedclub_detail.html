@@ -1,0 +1,92 @@
+{% extends "propose_join/base.html" %}
+
+{% block body %}
+
+    <div class="content-section">
+            <div class="media">
+              <img class="rounded-circle account-img" src="{{ object.club_logo.url }}">
+              <div class="media-body">
+                <h2 class="account-heading">{{ object.club_name }}</h2>
+                <p class="text-secondary">{{ object.club_info|linebreaks|urlize }}</p>
+                <p class="text-secondary">Proposed on : {{ object.date }}</p>
+            </div>
+          </div>
+          <center>
+          <h2 class='border-bottom mb-4 '>Poll Status</h2>
+          <h5 class="text-secondary"> Poll Ends  In </h5>
+          <h5 class="text-secondary" id="demo"></h5>
+          <div id="chartContainer" style="height: 350px; width: 100%;"></div>
+          </center>
+      </div>
+
+        <meta http-equiv="refresh" content="20" />
+<script>
+// Set the date we're counting down to
+//var today = new Date(a);
+b="{{ object.date }}";
+
+var startpoll = new Date({{ for_js }});
+var miliform= Date.parse(startpoll);
+var istform=Math.floor(miliform + 330*60*1000);
+var endpoll=Math.floor(istform + 7*24*60*60*1000);
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+   // var distanc={{ object.end }};
+   var distance = endpoll - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+//document.getElementById("demo").innerHTML = tom;
+    //document.getElementById("demo").innerHTML = distance;
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light1", // "light1", "light2", "dark1", "dark2"
+	title:{
+		text: "POLL TRENDS"
+	},
+	axisY: {
+		title: "No. OF VOTES(Student Votes)"
+	},
+	data: [{
+		type: "column",
+		showInLegend: true,
+		legendMarkerColor: "grey",
+		legendText: "CHOICES",
+		dataPoints: [
+			{ y: {{ object.num_vote_up }},color:"green" ,label: "Intrested" },
+			{ y: {{ object.num_vote_down }},color:"red" ,  label: "Not Intrested" },
+
+		]
+	}]
+});
+chart.render();
+
+}
+</script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+
+{% endblock %}

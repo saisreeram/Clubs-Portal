@@ -1,0 +1,67 @@
+{% extends "forum/base.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+{% endblock %}
+{% block posts %}
+
+  <div class="jumbotron">
+    <center><h1>Global Area</h1></center>
+  </div>
+
+  <div class = 'content-section' >
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class='form-group' >
+            <legend class='border-bottom mb-4'>What's on your Mind?</legend>
+            {{form|crispy}}
+        </fieldset>
+        <div class='form-group'>
+            <button class= 'btn btn-outline-info' type='submit'>Post</button>
+        </div>
+    </form>
+  </div>
+  <div class = 'content-section' >
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class='form-group' >
+            {{form1|crispy}}
+        </fieldset>
+        <div class='form-group'>
+            <button class= 'btn btn-outline-info' type='submit'>Search</button>
+        </div>
+    </form>
+  </div>
+  <h2 class="article-title ml-2">Latest Posts!</h2>
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content|truncatewords_html:50|urlize }}</p>
+          </div>
+        </article>
+    {% endfor %}
+
+    <div class='container text-center' >
+      {% if posts.has_previous %}
+        <a class= 'btn btn-outline-info'  href='?page={{ posts.previous_page_number }}'>Previous</a>
+      {% endif %}
+      {% if posts.has_next %}
+        <a  class= 'btn btn-outline-info ml-5' href='?page={{ posts.next_page_number }}'>Next</a>
+      {% endif %}
+    </div>
+    <div style="text-align:center;">...</div>
+
+{% endblock %}
+{% block link %}
+  <p class='text-muted'>
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-light"><a class=" btn btn-outline-info" style="width: 100%;"href="{% url 'notifications' %}">Notifications{%if count != 0%} <span class="badge badge-danger">{{count}}</span> {%endif%}</a></li>
+        <li class="list-group-item list-group-item-light"><a href="{% url 'list_user_event' %}">Show Events</a></li>
+    </ul>
+  </p>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "propose_join/base.html" %}
+{% block body %}
+{% for note in Noti %}
+    {% if note.read == False %}
+        <article class="media content-section" style="background-color: #d6f9df;padding:2px;padding-top:15px;">
+            <div class="media">
+                <div class="media-body">
+                    {% if note.content == 'An Event was announced in your club'%}
+                    <p class="article-content" style="margin-left: 50px;"><a href="{% url 'event_detail1' note.eventid.id %}">{{ note.content }}  {{note.eventid.in_club.club_name}}</a></p>
+                    {% else %}
+                    <p class="article-content" style="margin-left: 50px"><a href="{% url 'post-detail' note.postid.id %}">{{ note.content }}</a></p>
+                    {% endif %}
+                </div>
+        </div>
+        </article>
+    {% else %}
+        <article class="media content-section" style="padding:2px;padding-top:15px;">
+            <div class="media">
+                <div class="media-body">
+                    {% if note.content == 'An Event was announced in your club'%}
+                    <p class="article-content" style="margin-left: 50px;"><a href="{% url 'event_detail1' note.eventid.id %}">{{ note.content }}  {{note.eventid.in_club.club_name}}</a></p>
+                    {% else %}
+                    <p class="article-content" style="margin-left: 50px"><a href="{% url 'post-detail' note.postid.id %}">{{ note.content }}</a></p>
+                    {% endif %}
+                </div>
+        </div>
+        </article>
+    {% endif %}
+    {% endfor %}
+{% endblock %}

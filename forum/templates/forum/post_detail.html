@@ -1,0 +1,60 @@
+{% extends "forum/base.html" %}
+{% load crispy_forms_tags %}
+{% block posts %}
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ post.author }}</a>
+        <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+
+      </div>
+      <h2 class="article-title">{{ post.title }}</h2>
+      <p class="article-content">{{ post.content|urlize|linebreaks }}</p>
+      <div class="">
+        <div style="float: right;" class="mr-2" id="like_section">
+          {% if request.user.is_authenticated %}
+            {% include 'forum/like_section.html' %}
+          {% else %}
+                  <P>{{ total_likes }} likes</P>
+          {% endif %}
+        </div>
+      </div>
+      {% if post.author == user %}
+          <div class="">
+            <p class="mt-2">
+              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">Update</a>
+              <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">Delete</a>
+            </p>
+          </div>
+        {% endif %}
+    </div>
+  </article>
+{% endblock %}
+{% block comments %}
+  <h4 class="article-title ml-2">Comments</h4>
+  <div class = 'content-section' >
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class='form-group' >
+            <legend class='border-bottom'><h6>Post Comment</h6></legend>
+            {{form|crispy}}
+        </fieldset>
+        <div class='form-group'>
+            <button class= 'btn btn-outline-info' type='submit'>Post</button>
+        </div>
+    </form>
+  </div>
+  {% for comment in comments %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ comment.author }}</a>
+          <small class="text-muted">{{ comment.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ comment.title }}</a></h2>
+        <p class="article-content">{{ comment.content }}</p>
+      </div>
+    </article>
+  {% endfor %}
+{% endblock %}

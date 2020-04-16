@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  img {
+  float: right;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+
+.container {
+  padding: 2px 16px;
+}
+{% for q in qs %}
+.{{ q.club_name }}
+{
+  display: none;
+}
+{% endfor %}
+
+.btnsuccess {
+border: 2px solid black;
+border-radius: 5px;
+background-color: white;
+color: black;
+padding: 14px 28px;
+font-size: 16px;
+cursor: pointer;
+border-color: #4CAF50;
+color: green;
+}
+
+.btnsuccess:hover {
+background-color: #4CAF50;
+color: white;
+}
+
+.btndanger{
+border: 2px solid black;
+border-radius: 5px;
+background-color: white;
+color: black;
+padding: 14px 28px;
+font-size: 16px;
+cursor: pointer;
+border-color: #f44336;
+color: red
+}
+
+.btndanger:hover {
+background: #f44336;
+color: white;
+}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    {% for q in qs %}
+        $(document).ready(function(){
+            $("#{{ q.club_name }}.btndanger").click(function(){
+                $(".{{ q.club_name }}").slideToggle("slow");
+    });
+});
+        {% endfor %}
+</script>
+
+
+</head>
+<body>
+<center><h1>welcome admin</h1></center></br>
+{% if not qs %}
+        <h2>no clubs</h2>
+            {% endif %}
+{% for q in qs %}
+
+
+<div class="card">
+  <div class="container">
+  {% if q.club_logo %}
+        <img src="{{ q.club_logo.url }}" alt="logo" height="250px" width="250px;">
+            {% endif %}
+
+    <h2>Club Name : {{ q.club_name }} </h2>
+
+    <h3>About :</h3>
+    <p> {{ q.club_info }}</p>
+	<h4> Proposed By : {{ q.name }}</h4>
+  <form action="result1" method="post">{% csrf_token %}
+      <input type="hidden" name="ans" value="accept">
+        <button class="btnsuccess" id="{{ q.club_name }}"  value="{{ q.id }}" >accept</button>
+      <input type="hidden" name="name" value="{{ q.club_name }}" >
+</form>
+  <br><br>
+<button class="btndanger" id ="{{ q.club_name }}" value="{{ q.id }}" >reject</button>
+<div class={{ q.club_name }}>
+<h2>Why do you want to reject the club </h2>
+<form action="result" method="post">{% csrf_token %}
+	Reason :<br><br>
+    <textarea name="message" style="width:200px; height:100px;"></textarea><br>
+
+
+    <br>
+    <input type="hidden" name="name" value="{{ q.club_name }}" >
+
+  <input type="submit" value="submit" name="{{ q.club_name }}" >
+</form> 
+</div>
+<br>
+<br>
+  </div>
+</div>
+<br>
+<br>
+{% endfor %}
+
+</body>
+</html> 
+

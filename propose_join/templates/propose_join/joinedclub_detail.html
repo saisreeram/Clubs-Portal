@@ -1,0 +1,45 @@
+{% extends "propose_join/base.html" %}
+
+{% block body %}
+
+    <div class="content-section">
+            <div class="media">
+              <img class="rounded-circle account-img" src="{{ object.club_logo.url }}">
+              <div class="media-body">
+                <h2 class="account-heading">{{ object.club_name }}</h2>
+                <p class="text-secondary">{{ object.club_info|linebreaks|urlize }}</p>
+            </div>
+            </div>
+            {% if request.user in object.club_members.all %}
+                <form class='myclub.url' method="POST" action="{% url 'propose_join:quitclub' object.id %}" class="form">
+                    {% csrf_token %}
+                        <input type="hidden" name="club-id" value="{{object.id}}">
+                        <button type="submit" name="quit" class='btn btn-danger' style="width:100%" value="quit">Quit Club </button>
+                </form>
+                <br>
+                     <a href="{% url 'club_forum' object.id %}" class='btn btn-outline-info' style="width:100%" >Visit Club Forum </a>
+                </form>
+                {% else %}
+                <form class="exlist.url" method="POST" action="{% url 'propose_join:add_to_join' %}">
+                        {% csrf_token %}
+                                <input type="hidden" name="club-joined" value="{{ object.club_name }}">
+                                <button type="submit" class="btn btn-success btn-md" style="width:100%">Join Club </button>
+                      </form>
+                {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block link %}
+  <p class='text-muted'>
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-light">Latest Posts</li>
+      <li class="list-group-item list-group-item-light">Top Clubs</li>
+      <li class="list-group-item list-group-item-light">Top Posts</li>
+      {% if request.user in object.admin.all %}
+      <li class="list-group-item list-group-item-light"><a class=" btn btn-outline-info" style="width: 100%;"href="{% url 'club_event' object.id %}">Add Event</a></li>
+      {% endif %}
+    </ul>
+  </p>
+
+{% endblock %}

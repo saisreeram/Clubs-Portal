@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'forum/main.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'forum/css/style.css' %}">
+    <style>
+      a {
+        color: #428bca;
+      }
+      a:hover {
+          color: #333;
+          text-decoration: none;
+      }
+
+      .dropdown {
+          position: relative;
+          display: inline-block;
+      }
+
+      .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f1f1f1;
+          min-width: 130px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+      }
+
+      .dropdown-content a {
+          display: block;
+      }
+
+      .dropdown-content a:hover {background-color: #ddd;}
+
+      .dropdown:hover .dropdown-content {display: block;}
+
+      #RejectReason{
+        display:none;
+      }
+      </style>
+  </head>
+  <body>
+      <header class="site-header">
+          <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color:#001a33;">
+            <div class="container">
+              <a class="navbar-brand mr-4" href="{% url 'user-home' %}">CLUBSportal</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav mr-auto">
+                  <div class="dropdown">
+                    <a class="nav-item nav-link dropbtn" data-toggle="dropdown">Clubs</a>
+                    <div class="dropdown-content">
+                      <a class="nav-item nav-link" style="color:#001a33" href="{% url 'jdlist' %}">Joined Clubs</a>
+                      <a class="nav-item nav-link" style="color:#001a33" href="{% url 'exlist' %}">Existing Clubs</a>
+                      <a class="nav-item nav-link" style="color:#001a33" href="{% url 'prlist' %}">Proposed Clubs</a>
+                    </div>
+                  </div>
+                  <a class="nav-item nav-link" href="{% url 'prclub' %}">Propose Club</a>
+                  {% if request.user.is_superuser %}
+                    <a class="nav-item nav-link" href="{% url 'admin_page' %}">Admin</a>
+                  {% endif %}
+                  <!--<a class="nav-item nav-link " href="{% url 'post-create' %}">New Post</a>-->
+                </div>
+                <!-- Navbar Right Side -->
+                <div class="navbar-nav">
+                  {% if user.is_authenticated %}
+                    <a class="nav-item" href="{% url 'profile' %}"> <img class="rounded-circle" style="height: 40px; width: 40px; margin-right: 10px ; margin-top: 1px" src="{{ user.profile.image.url }}"> </a>
+                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                  {% else %}
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </nav>
+        </header>
+      <main role="main" class="container">
+          <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{message.tags}}">
+                        {{message}}
+                    </div>
+                {% endfor  %}
+            {% endif %}
+              {% block body %}{% endblock %}
+              {% block comments %}{% endblock %}
+            </div>
+          </div>
+        </main>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $("#Rejectbtn").click(function () {
+      $("#RejectReason").show("slow", function(){});
+      });
+      </script>    
+  </body>
+</html>
+
+  </body>
+</html>

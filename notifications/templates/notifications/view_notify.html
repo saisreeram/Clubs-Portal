@@ -1,0 +1,26 @@
+{% extends "registration/base1.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Register
+{% endblock %}
+
+{% block inner_sidebar %}Register{% endblock inner_sidebar %}
+
+{% block register %}
+<div class = 'content-section' >
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class='form-group' >
+            <legend class='border-bottom mb-4'>Notifications</legend>
+            <fieldset class='form-group' >
+                {% for not in notification %}
+                <fieldset class='form-group' >
+                    <legend class='border-bottom mb-4'><b>Sent by:{{ not.sender }}</b><br></legend>
+                        {{ not.date}}<br>
+                        {{ not.notifications}}<br>
+                </fieldset>
+                </fieldset>
+                {% endfor %}
+        </fieldset>
+</div>
+{% endblock %}

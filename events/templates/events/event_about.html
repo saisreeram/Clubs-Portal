@@ -1,0 +1,19 @@
+{% extends "propose_join/base.html" %}
+
+{% block title %}
+    About
+{% endblock %}
+
+{% block body %}
+<div class = 'content-section' >
+  <div class="media-body">
+    <div class="article-metadata">
+      <center><h2 class="article-title">{{ event.event_name }}</h2></center>
+      From:<p class="text-muted">{{ event.event_from }}</p>
+      To:<p class="text-muted">{{ event.event_to }}</p>
+      Venue:<p class="text-muted">{{ event.venue|urlize }}</p>
+    </div>
+    <p class="article-content">{{ event.about_event|urlize }}</p>
+  </div>
+</div>
+{% endblock %}

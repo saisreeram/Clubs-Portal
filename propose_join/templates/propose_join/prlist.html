@@ -1,0 +1,25 @@
+{% extends "propose_join/base.html" %}
+
+{% block body %}
+<meta http-equiv="refresh" content="20" />
+<h2 class="article-title ml-2">PROPOSED IIITS CLUBS</h2>
+    {% for club in clubs %}
+    <div class="content-section">
+            <div class="media">
+              <img class="rounded-circle account-img" src="{{ club.club_logo.url }}">
+              <div class="media-body">
+                <h2 class="account-heading"><a href="{{ club.get_url }}">{{ club.club_name }}</a></h2>
+                <p class="text-secondary">{{ club.club_info|truncatewords_html:50|urlize }}</p>
+                <form class='list.url' method="POST" action="{% url 'propose_join:voting' %}" data-endpoint="{% url 'propose_join:voting' %}"class="form">
+                  {% csrf_token %}
+                          <input type="hidden" name="club-id" value="{{club.id}}">
+              <button type="submit" name="vote" class='btn btn-success' value="yes">Interested </button>
+                               <button type="submit" name="vote" class ='btn btn-danger' value="no"> Not Interested </button>
+                </form>
+              </div>
+
+    </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

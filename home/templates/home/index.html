@@ -1,0 +1,38 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block body1 %}
+<div class="container">
+    <h1 style="color:#001a33" >About</h1>
+    <p style="font-size:20px;">Recreation
+Apart from the cultural activities and sporting events that go on throughout the academic year, there are many other forms of recreation open to the students. There are a number of clubs which are gong to be included ; the Music Club, Astronomy Club, Film Club, Hiking Club etc.
+
+The Institute will also establish various Sabhas and Mandals which are informal gatherings of people having a similar linguistic background. The Hindi Mitra Mandal, the Kannada Sangha, the Telugu Samskritika Samiti etc. are a few of them.
+</p><br>
+</div>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <br><br>
+  <h1 style="color:#001a33">Moto</h1>
+  <p style="font-size:20px;">
+    The Clubsportal,IIIT Sricity was founded in October 2017, by a dedicated group of faculty, staff and students. The aim was to promote listening to classical music amidst campus residents, students included. Several stalwarts have performed at this acoustically and aesthetically structured Central Lecture Theatre (CLT) to sizable audiences observing pin drop silence. Looking for subtleties, nuances, peace and quite? Well, this is where you should attend a music concert. And when we say stalwarts, we mean it.
+  </p>
+</div>
+{% endblock %}
+
+{% block scroll %}
+  <div class="container">
+     <h1 style="color:#001a33">Our Clubs</h1>
+     <section class="customer-logos slider">
+       {% for club in clubs %}
+        <div class="slide"><img class="rounded-circle account-img" src="{{ club.club_logo.url }}"></div>
+       {% endfor %}
+      </section>
+  </div>
+{% endblock %}

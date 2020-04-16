@@ -1,0 +1,35 @@
+{% extends "registration/base.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+<h1>SIGN UP</h1>
+<form class="" action="{% url 'registration:signup_url' %}" method="post">
+  {% csrf_token %}
+  {% for field in form_inst %}
+    {{ field.label_tag }}<br>
+    {{ field }}<br>
+    <!--{% if field.help_text %}
+      <small style="color: grey help_text:non">{{ field.help_text }}</small>
+    {% endif %}-->
+      {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+      {% endfor %}
+  {% endfor %}
+  {% for field in form1 %}
+    {{ field.label_tag }}<br>
+    {{ field }}<br>
+<!--    {% if field.help_text %}
+      <small style="color: grey help_text:non">{{ field.help_text }}</small>
+    {% endif %}-->
+      {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+      {% endfor %}
+  {% endfor %}
+
+  <input type="submit" value="Signup">
+</form>
+
+{% endblock %}

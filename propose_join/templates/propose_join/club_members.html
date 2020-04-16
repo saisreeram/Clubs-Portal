@@ -1,0 +1,23 @@
+{% extends "propose_join/base.html" %}
+{% block body %}
+{% for user in club.club_members.all %}
+        <article class="media content-section">
+            <div class="media">
+                <img class="rounded-circle" height="50px" width="50px" src="{{ user.profile.image.url }}">
+                <div class="media-body">
+                    <h2 class="account-heading" style="margin-left: 50px">{{ user.username }}</h2><br>
+                    {% if request.user in club.admin.all %}
+                    {% if user not in club.admin.all %}
+                    <form class='myclub.url' method="POST" class="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="club-id" value="{{club.id}}">
+                        <input type="hidden" name="usr" value="{{user.username}}">
+                        <button type="submit" name="quit" class='btn btn-danger mr-2' style="" value="quit"> Remove </button>
+                    </form>
+                    {% endif %}
+                    {% endif %}
+                </div>
+        </div>
+        </article>
+    {% endfor %}
+{% endblock %}

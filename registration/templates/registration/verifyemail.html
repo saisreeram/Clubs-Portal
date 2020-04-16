@@ -1,0 +1,9 @@
+{% extends "registration/base1.html" %}
+{% block register %}
+    <h2> Password Reset Link has been sent to your Email, Please check your Email Address </h2>
+        <div class="border-top pt-3">
+            <small class = 'text-muted'>
+                <a class="ml-2" href = "{% url 'login' %}" >Log In Again</a>
+            </small>
+        </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "administration/base.html" %}
+
+{% block title %}
+    welcome  admin
+{% endblock %}
+
+{% block body %}
+
+    <p id="demo"></p>
+    <script>
+	    var i;
+	    var text="";
+	    listView();
+	    function listView() {
+	        for (i = 0; i < 5; i++) {
+	                text +='<div class="row" style="background-color:#aaa;"><h2>Column 1</h2><p>Some text..</	p></div>';
+	                }
+	        document.getElementById("demo").innerHTML = text;}
+
+    </script>
+
+{% endblock %}

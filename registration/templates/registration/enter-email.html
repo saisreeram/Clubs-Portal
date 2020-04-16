@@ -1,0 +1,12 @@
+{% extends "registration/base1.html" %}
+{% load crispy_forms_tags %}
+{% block register %}
+    <div class = 'content-section' >
+            <legend class='border-bottom'>Enter Email</legend>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="email" class="emailinput form-control" name="user_email" value=""><br>
+            <input class= 'btn btn-outline-info' type="submit" name="submit" value="submit">
+        </form>
+    </div>
+{% endblock %}

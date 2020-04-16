@@ -1,0 +1,20 @@
+{% extends "propose_join/base.html" %}
+
+{% block body %}
+
+<h2 class="article-title ml-2">EXISTING IIITS CLUBS</h2>
+    {% for club in clubs %}
+    <div class="content-section">
+            <div class="media">
+              <img class="rounded-circle account-img" src="{{ club.club_logo.url }}">
+              <div class="media-body">
+                <h2 class="account-heading"><a href="{{ club.get_url }}">{{ club.club_name }}</a></h2>
+                <p class="text-secondary">{{ club.club_info|truncatewords_html:50|urlize }}</p>
+                {% if request.user not in club.club_members.all %}
+                {% endif %}
+            </div>
+    </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
